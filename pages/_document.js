@@ -4,7 +4,7 @@
 
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
-import React from 'react';
+import React, { Children } from 'react';
 
 export default class MyDocument extends Document {
   render() {
@@ -22,11 +22,12 @@ export default class MyDocument extends Document {
 }
 
 MyDocument.getInitialProps = async (context) => {
-  const sheets = new ServerStyleSheets();
-  const originalRenderPg = context.renderPage;
+  const serverStyleSheet = new ServerStyleSheets();
+  const originalRenderPage = context.renderPage;
   context.renderPage = () => {
-    return originalRenderPg({
-      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+    return originalRenderPage({
+      enhanceApp: (App) => (props) =>
+        serverStyleSheet.collect(<App {...props} />),
     });
   };
 
@@ -34,8 +35,8 @@ MyDocument.getInitialProps = async (context) => {
   return {
     ...initialProps,
     styles: [
-      ...React.Children.toArray(initialProps.styles),
-      sheets.getStyleElement(),
+      ...Children.toArray(initialProps.styles),
+      serverStyleSheet.getStyleElement(),
     ],
   };
 };
