@@ -2,6 +2,7 @@ const data = {
   products: [
     {
       name: 'Blue-Eyes White Dragon',
+      slug: 'blue-eyes-white-dragon',
       category: 'Normal Monster',
       image: '/images/normalMonster.jpg',
       price: 70,
@@ -12,6 +13,7 @@ const data = {
     },
     {
       name: 'Cyber End Dragon',
+      slug: 'cyber-end-dragon',
       category: 'Fusion Monster',
       image: '/images/fusionMonster.jpg',
       price: 70,
@@ -22,6 +24,7 @@ const data = {
     },
     {
       name: 'Scarlight Red Dragon Archfiend',
+      slug: 'scarlight-red-dragon-archfiend',
       category: 'Synchro Monster',
       image: '/images/synchroMonster.jpg',
       price: 70,
@@ -32,6 +35,7 @@ const data = {
     },
     {
       name: 'Dark Rebellion XYZ Dragon',
+      slug: 'dark-rebellion-xyz-dragon',
       category: 'XYZ Monster',
       image: '/images/XYZMonster.jpg',
       price: 70,
@@ -42,6 +46,7 @@ const data = {
     },
     {
       name: 'Odd-Eyes Pendulum Dragon',
+      slug: 'odd-eyes-pendulum-dragon',
       category: 'Pendulum Monster',
       image: '/images/pendulumMonster.jpg',
       price: 70,
@@ -51,7 +56,8 @@ const data = {
       description: 'A popular pant',
     },
     {
-      name: 'FireWall Dragon',
+      name: 'Firewall Dragon',
+      slug: 'firewall-dragon',
       category: 'Link Monster',
       image: '/images/linkMonster.jpg',
       price: 70,
