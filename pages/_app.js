@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import '../styles/globals.css';
+import { StoreProvider } from '../utils/Store';
 
 const MyApp = ({ Component, pageProps }) => {
   //useEffect to resolve CSS changes not applying
@@ -12,7 +13,11 @@ const MyApp = ({ Component, pageProps }) => {
     }
   }, []);
 
-  return <Component {...pageProps} />;
+  return (
+    <StoreProvider>
+      <Component {...pageProps} />
+    </StoreProvider>
+  );
 };
 
 export default MyApp;
