@@ -87,8 +87,8 @@ const ProductScreen = () => {
                   </Grid>
                   <Grid item xs={6}>
                     <Typography>
-                      {product.countInStock > 0
-                        ? `${product.countInStock} available`
+                      {product.stockCount > 0
+                        ? `${product.stockCount} available`
                         : `Out of Stock`}
                     </Typography>
                   </Grid>
