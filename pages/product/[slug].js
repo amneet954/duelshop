@@ -1,8 +1,8 @@
 //File must be named [slug] so that Next.js can dynamically connect page when an individual product is clicked on
 
-import { useRouter } from 'next/router';
+import db from '../../utils/db';
+import Image from 'next/image';
 import Layout from '../../components/Layout';
-import data from '../../utils/data';
 import NextLink from 'next/link';
 import {
   Button,
@@ -13,14 +13,12 @@ import {
   ListItem,
   Typography,
 } from '@material-ui/core';
+import Product from '../../models/Product';
 import useStyles from '../../utils/styles';
-import Image from 'next/image';
 
-const ProductScreen = () => {
+const ProductScreen = (props) => {
+  const { product } = props;
   const classes = useStyles();
-  const router = useRouter();
-  const { slug } = router.query;
-  const product = data.products.find((card) => card.slug === slug);
 
   if (!product) return <h1>Product Not Found</h1>;
   return (
@@ -108,3 +106,17 @@ const ProductScreen = () => {
 };
 
 export default ProductScreen;
+
+export const getServerSideProps = async (context) => {
+  const { params } = context;
+  const { slug } = params;
+  await db.connect();
+  const product = await Product.findOne({ slug }).lean();
+  await db.disconnect();
+
+  return {
+    props: {
+      product: db.convertDocToObj(product),
+    },
+  };
+};

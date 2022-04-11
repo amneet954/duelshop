@@ -9,16 +9,19 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-import data from '../utils/data';
+// import data from '../utils/data';
+import db from '../utils/db';
 import NextLink from 'next/link';
+import Product from '../models/Product';
 
-const Home = () => {
+const Home = (props) => {
+  const { products } = props;
   return (
     <Layout>
       <div>
         <h1>Cards</h1>
         <Grid container spacing={3}>
-          {data.products.map((product) => (
+          {products.map((product) => (
             <Grid item md={4} key={product.name}>
               <Card>
                 <NextLink href={`/product/${product.slug}`} passHref>
@@ -49,3 +52,15 @@ const Home = () => {
 };
 
 export default Home;
+
+export const getServerSideProps = async () => {
+  await db.connect();
+  const products = await Product.find({}).lean();
+  await db.disconnect();
+
+  return {
+    props: {
+      products: products.map(db.convertDocToObj),
+    },
+  };
+};
