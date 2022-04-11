@@ -8,7 +8,7 @@ const data = {
       price: 70,
       cardType: 'Monster',
       rating: '4.5',
-      countInStock: 20,
+      stockCount: 20,
       description: `This legendary dragon is a powerful engine of destruction. Virtually invincible, very few have faced this awesome creature and lived to tell the tale.`,
     },
     {
