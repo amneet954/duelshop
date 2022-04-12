@@ -1,5 +1,6 @@
 //File must be named [slug] so that Next.js can dynamically connect page when an individual product is clicked on
 
+import axios from 'axios';
 import db from '../../utils/db';
 import Image from 'next/image';
 import Layout from '../../components/Layout';
@@ -14,13 +15,26 @@ import {
   Typography,
 } from '@material-ui/core';
 import Product from '../../models/Product';
+import { Store } from '../../utils/Store';
 import useStyles from '../../utils/styles';
+import { useContext } from 'react';
 
 const ProductScreen = (props) => {
+  const { dispatch } = useContext(Store);
   const { product } = props;
   const classes = useStyles();
 
   if (!product) return <h1>Product Not Found</h1>;
+
+  const addToCartHandler = async () => {
+    const { data } = await axios.get(`/api/products/${product._id}`);
+
+    if (data.countInStock <= 0) window.alert('Product is Out of Stock');
+    else {
+      dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } });
+    }
+  };
+
   return (
     <Layout title={product.name} description={product.description}>
       <div className={classes.section}>
@@ -85,6 +99,7 @@ const ProductScreen = (props) => {
                   </Grid>
                   <Grid item xs={6}>
                     <Typography>
+                      {console.log(product)}
                       {product.stockCount > 0
                         ? `${product.stockCount} available`
                         : `Out of Stock`}
@@ -93,7 +108,12 @@ const ProductScreen = (props) => {
                 </Grid>
               </ListItem>
               <ListItem>
-                <Button fullWidth variant="contained" color="primary">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={addToCartHandler}
+                >
                   Add to Cart
                 </Button>
               </ListItem>
