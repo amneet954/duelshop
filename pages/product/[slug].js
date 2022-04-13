@@ -18,8 +18,10 @@ import Product from '../../models/Product';
 import { Store } from '../../utils/Store';
 import useStyles from '../../utils/styles';
 import { useContext } from 'react';
+import { useRouter } from 'next/router';
 
 const ProductScreen = (props) => {
+  const router = useRouter();
   const { dispatch } = useContext(Store);
   const { product } = props;
   const classes = useStyles();
@@ -29,10 +31,12 @@ const ProductScreen = (props) => {
   const addToCartHandler = async () => {
     const { data } = await axios.get(`/api/products/${product._id}`);
 
-    if (data.countInStock <= 0) window.alert('Product is Out of Stock');
-    else {
-      dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } });
+    if (data.countInStock <= 0) {
+      window.alert('Product is Out of Stock');
+      return;
     }
+    dispatch({ type: 'CART_ADD_ITEM', payload: { ...product, quantity: 1 } });
+    router.push('/cart');
   };
 
   return (
